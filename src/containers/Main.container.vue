@@ -4,8 +4,9 @@
                 :item-stock="itemStock"
                 :item-titles ="itemTitles"
                 :dollar-rate="dollarRate"
+                @addToCart="addToCart"
         />
-        <Cart/>
+        <Cart :cart-items="cartItems"/>
     </div>
 
 </template>
@@ -22,10 +23,19 @@
             return {
                 itemTitles: {},
                 itemStock: {},
-                dollarRate: 45
+                dollarRate: 45,
+                cartItems:{}
             }
         },
         methods: {
+            addToCart(item){    //Function adds item to cart array
+                // eslint-disable-next-line no-prototype-builtins
+                if(this.cartItems.hasOwnProperty(item.id)){
+                    this.cartItems[item.id].amount += 1
+                } else{
+                    this.cartItems[item.id] = {amount: 1, title: item.title, price:item.price}
+                }
+            },
            async fetchData() {  //Function simulates API request to server
             await this.sortItemsByGroup(data.Value.Goods)
             this.itemTitles = names

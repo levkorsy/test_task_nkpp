@@ -9,6 +9,9 @@
         <div class="price">
             <span>{{ (item.C * dollarRate).toFixed(2) }} &#8381;</span>
         </div>
+        <div class="add-item">
+            <button class="btn btn-success" @click="$parent.$parent.$emit('addToCart', {id:item.T, group:item.G, title: itemGroupInfo.B[item.T].N, price: item.C})">+</button>
+        </div>
     </div>
 </template>
 
@@ -28,6 +31,9 @@
                 type: Object,
                 required: true
             }
+        },
+        methods:{
+
         }
     }
 </script>
@@ -39,7 +45,7 @@
     .title{
         flex: 10;
     }
-    .price{
+    .price, .add-item{
         flex: 1;
     }
 </style>
