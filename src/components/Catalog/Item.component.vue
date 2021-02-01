@@ -10,12 +10,14 @@
             <span>{{ (item.C * dollarRate).toFixed(2) }} &#8381;</span>
         </div>
         <div class="add-item">
-            <button class="btn btn-success" @click="$parent.$parent.$emit('addToCart', {id:item.T, group:item.G, title: itemGroupInfo.B[item.T].N, price: item.C})">+</button>
+<!--            <button class="btn btn-success" @click="$parent.$parent.$emit('addToCart', {id:item.T, group:item.G, title: itemGroupInfo.B[item.T].N, price: item.C})">+</button>-->
+            <button class="btn btn-success" @click="addToCart">+</button>
         </div>
     </div>
 </template>
 
 <script>
+    import EventBus from '../../eventBus'
     export default {
         name: "Item",
         props: {
@@ -33,7 +35,9 @@
             }
         },
         methods:{
-
+addToCart(){
+    EventBus.$emit('add_item', {id:this.item.T, group:this.item.G, title: this.itemGroupInfo.B[this.item.T].N, price: this.item.C})
+}
         }
     }
 </script>

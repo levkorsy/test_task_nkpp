@@ -4,9 +4,9 @@
                 :item-stock="itemStock"
                 :item-titles ="itemTitles"
                 :dollar-rate="dollarRate"
-                @addToCart="addToCart"
+
         />
-        <Cart :cart-items="cartItems"/>
+        <Cart :cart-items="cartItems" :key="key"/>
     </div>
 
 </template>
@@ -16,6 +16,7 @@
     import Cart from "../components/Cart/Cart";
     import data from "../dump_db/data.json"
     import names from "../dump_db/names.json"
+    import EventBus from '../eventBus'
     export default {
         name: "Main",
         components: {Cart, MainCatalog},
@@ -24,16 +25,32 @@
                 itemTitles: {},
                 itemStock: {},
                 dollarRate: 45,
-                cartItems:{}
+                cartItems:{},
+                key: 0
+
             }
         },
         methods: {
             addToCart(item){    //Function adds item to cart array
+                console.log('add')
+                this.key += 1
                 // eslint-disable-next-line no-prototype-builtins
                 if(this.cartItems.hasOwnProperty(item.id)){
                     this.cartItems[item.id].amount += 1
                 } else{
-                    this.cartItems[item.id] = {amount: 1, title: item.title, price:item.price}
+                    this.cartItems[item.id] = {amount: 1, title: item.title, price:item.price, id: item.id}
+                }
+            },
+            removeFromCart(item){
+                console.log('remove', item)
+
+                this.key -= 1
+                // eslint-disable-next-line no-prototype-builtins
+                if(this.cartItems.hasOwnProperty(item.id)){
+                    this.cartItems[item.id].amount -= 1
+                    if(this.cartItems[item.id].amount < 1){
+                        this.cartItems[item.id] = null
+                    }
                 }
             },
            async fetchData() {  //Function simulates API request to server
@@ -51,11 +68,23 @@
                 })
             }
         },
+        watch:{
+            cartItems: function () {
+                console.log('watch')
+            }
+        },
         created() {
             this.fetchData()
 
         },
-        mounted() {}
+        mounted () {
+            EventBus.$on('add_item', (payload) => {
+                this.addToCart(payload)
+            })
+            EventBus.$on('remove_item', (payload) => {
+                this.removeFromCart(payload)
+            })
+        }
     }
 </script>
 
