@@ -4,7 +4,7 @@
                 :item-stock="itemStock"
                 :dollar-rate="dollarRate"
         />
-        <Cart :cart-items="cartItems" :key="key"/>
+        <Cart :cart-items="cartItems" :key="key" :dollar-rate="dollarRate"/>
     </div>
 
 </template>
@@ -15,6 +15,7 @@
     import data from "../dump_db/data.json"
     import names from "../dump_db/names.json"
     import EventBus from '../eventBus'
+
     export default {
         name: "Main",
         components: {Cart, MainCatalog},
@@ -22,106 +23,93 @@
             return {
                 itemTitles: {},
                 itemStock: [],
-                dollarRate: 45,
-                cartItems:{},
+                dollarRate: {
+                    previous: 45,
+                    current: 45
+                },
+                cartItems: {},
                 key: 0
 
             }
         },
         methods: {
-            addToCart(item){    //Function adds item to cart array
-                // this.key += 1
+            addToCart(item) {    //Function adds item to cart array
                 // eslint-disable-next-line no-prototype-builtins
-                if(this.cartItems.hasOwnProperty(item.id)){
+                if (this.cartItems.hasOwnProperty(item.id)) {
                     let amount = this.cartItems[item.id]['amount'];
                     delete this.cartItems[item.id]['amount']
-                  this.cartItems = Object.assign({}, this.cartItems, {
-                    [item.id]: {amount: amount+1, title: item.title, price:item.price, id: item.id},
-                  });
-                } else{
-                    // this.cartItems[item.id] = {amount: 1, title: item.title, price:item.price, id: item.id}
-                  this.cartItems = Object.assign({}, this.cartItems, {
-                                [item.id]: {amount: 1, title: item.title, price:item.price, id: item.id},
-                              });
+                    this.cartItems = Object.assign({}, this.cartItems, {
+                        [item.id]: {amount: amount + 1, title: item.title, price: item.price, id: item.id, quantity: item.quantity},
+                    });
+                } else {
+                    this.cartItems = Object.assign({}, this.cartItems, {
+                        [item.id]: {amount: 1, title: item.title, price: item.price, id: item.id, quantity: item.quantity},
+                    });
                 }
             },
-            removeFromCart(item){
-                this.key -= 1
+            removeFromCart(item) {
                 // eslint-disable-next-line no-prototype-builtins
-                if(this.cartItems.hasOwnProperty(item.id)){
+                if (this.cartItems.hasOwnProperty(item.id)) {
                     this.cartItems[item.id].amount -= 1
-                    if(this.cartItems[item.id].amount < 1){
-                        this.cartItems[item.id] = null
+                    if (this.cartItems[item.id].amount < 1) {
+                      delete this.cartItems[item.id]
                     }
                 }
+                this.updateStock(item.id)
             },
-           async fetchData() {  //Function simulates API request to server
-            await this.sortItemsByGroup(data.Value.Goods, names)
-             // console.log(data)
-            // this.itemTitles = names
+            fetchDataWithInterval(){
+                this.sortItemsByGroup(data.Value.Goods, names)
+                setInterval(()=>{
+                    this.fetchData()
+                }, 5000)
             },
-            // sortItemsByGroup(items){ //Function sorts all items by group
-            //
-            //   console.log(items)
-            //     items.forEach(item=>{
-            //       console.log(item.G)
-            //         // eslint-disable-next-line no-prototype-builtins
-            //         if(this.itemStock.hasOwnProperty(item.G)){
-            //             this.itemStock[item.G].push(item)
-            //         } else{
-            //             // this.itemStock[item['G']] = [item]
-            //           this.itemStock = Object.assign({}, this.itemStock, {
-            //             [item.G]: [item],
-            //           });
-            //           // console.log(this.itemStock)
-            //         }
-            //     })
-            // }
-            sortItemsByGroup(items, names){ //Function sorts all items by group
-             let ids = [...new Set(items.map(id=>id.G))]
-              ids.forEach(id=>{
-                // console.log(names[id].G)
-                // let groupTitle = names['id']
-                // console.log(groupTitle,777)
-                let tempArr =[]
-                items.forEach(item=>{
-                 if(item.G === id){
-                   item.groupTitle = names[id].G
+            getDollarRate(min, max){
+                this.dollarRate.previous = this.dollarRate.current
+                this.dollarRate.current = Math.floor(Math.random() * (max - min + 1)) + min
 
-                   item.title = names[id].B[item.T]
-                   tempArr.push(item);
-                 }
+            },
+
+            async fetchData() {  //Function simulates API request to server
+                  await this.getDollarRate(20, 80)
+                  await this.sortItemsByGroup(data.Value.Goods, names)
+
+            },
+            updateStock(id){
+                this.itemStock.forEach(itemGroup=>{
+                    itemGroup.forEach(item=>{
+                        if(item.T === id){
+                            item.P += 1
+                        }
+                    })
                 })
-                // console.log(tempArr)
-                this.itemStock.push(tempArr)
-})
+            },
 
+            sortItemsByGroup(items, names) { //Function sorts all items by group
+                this.itemStock = []
+                let ids = [...new Set(items.map(id => id.G))]
+                ids.forEach(id => {
+                    let tempArr = []
+                    items.forEach(item => {
+                        if (item.G === id) {
+                            item.groupTitle = names[id].G
 
-              // ids.forEach(item=>{
-              //     console.log(item)
-              //
-              //       // eslint-disable-next-line no-prototype-builtins
-              //       if(this.itemStock.hasOwnProperty(item)){
-              //           this.itemStock.item.push(item)
-              //       } else{
-              //           // this.itemStock[item['G']] = [item]
-              //         this.itemStock = Object.assign({}, this.itemStock, {
-              //           [item]: [item],
-              //         });
-              //         // console.log(this.itemStock)
-              //       }
-              //   })
+                            item.title = names[id].B[item.T]
+                            tempArr.push(item);
+                        }
+                    })
+                    this.itemStock.push(tempArr)
+                })
             }
         },
-        watch:{
+        watch: {
             cartItems: function () {
             }
         },
         created() {
-            this.fetchData()
+            this.fetchDataWithInterval()
 
         },
-        mounted () {
+        mounted() {
             EventBus.$on('add_item', (payload) => {
                 this.addToCart(payload)
             })

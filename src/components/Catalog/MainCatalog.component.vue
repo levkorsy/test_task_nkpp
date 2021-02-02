@@ -14,7 +14,7 @@
         components: {ItemGroup},
         props:{
            dollarRate: {
-              type: Number,
+              type: Object,
               required: true
            },
           itemStock:{

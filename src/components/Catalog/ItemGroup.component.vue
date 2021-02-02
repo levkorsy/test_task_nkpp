@@ -14,7 +14,7 @@
         },
         props:{
             dollarRate: {
-                type: Number,
+                type: Object,
                 required: true
             },
             itemGroup:{
@@ -22,7 +22,9 @@
                 required: true
             },
 
-        }
+
+        },
+
     }
 </script>
 

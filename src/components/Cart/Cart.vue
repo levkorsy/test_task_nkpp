@@ -11,7 +11,7 @@
       </tr>
       </thead>
       <tbody>
-      <CartItem v-for="(cItem, index) in cartItems" :key="index" :cart-item="cItem"/>
+      <CartItem v-for="(cItem, index) in cartItems" :key="index" :cart-item="cItem" :dollar-rate="dollarRate"/>
       </tbody>
       <tfoot>
       <tr>
@@ -19,7 +19,7 @@
         <td></td>
 <!--        <td>{{ getTotalAmount(cartItems)}}</td>-->
         <td>Sum</td>
-        <td>{{ getTotalPrice(cartItems) }}</td>
+        <td :class="setClassByDollarRate(dollarRate)">{{ getTotalPrice(cartItems) }}</td>
         <td></td>
       </tr>
       </tfoot>
@@ -29,15 +29,21 @@
 
 <script>
 import CartItem from "./CartItem.component";
+import functions from "../../utils/functions";
 
 export default {
   name: "Cart",
+  mixins:[functions],
   components: {CartItem},
   props: {
     cartItems: {
       type: Object,
       required: true
-    }
+    },
+    dollarRate: {
+      type: Object,
+      required: true
+    },
   },
   data(){
     return{
@@ -45,36 +51,26 @@ export default {
     }
   },
   methods: {
-    // getTotalAmount(cartItems) {
-    //   let sum = 0;
-    //
-    //   if (cartItems) {
-    //     for (const item in cartItems) {
-    //       sum += cartItems[item]['amount']
-    //     }
-    //
-    //   }
-    //
-    //   return sum
-    // },
     getTotalPrice(cartItems) {
       let sum = 0;
-
       if (cartItems) {
         for (const item in cartItems) {
           sum += cartItems[item]['price']*cartItems[item]['amount']
         }
-        // cartItems.forEach(item => {
-        //   sum += item.price
-        // })
       }
-
-      return sum.toFixed(2)
+      // sum*=this.dollarRate.current
+      // console.log(sum, sum*this.dollarRate.current, (sum*this.dollarRate.current).toFixed(2))
+      return (sum*this.dollarRate.current).toFixed(2)
     }
   }
 }
 </script>
 
 <style scoped>
-
+  .price-up{
+    color: red;
+  }
+  .price-down{
+    color: green;
+  }
 </style>
