@@ -1,5 +1,5 @@
 <template>
-   <div class="container">
+   <div class="main-catalog-wrapper">
       <ItemGroup v-for="(itemGroup, index) in itemStock" :key="index" class="group" :itemGroup="itemGroup"
                  :dollar-rate="dollarRate"
 
@@ -30,5 +30,14 @@
 </script>
 
 <style scoped>
+.main-catalog-wrapper{
+   border: 1px solid #dedddd;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+   flex: 2;
+   margin: 50px;
+   min-width: 60%;
 
+}
 </style>

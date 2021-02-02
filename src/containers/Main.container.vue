@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main-container">
         <MainCatalog
                 :item-stock="itemStock"
                 :dollar-rate="dollarRate"
@@ -121,5 +121,11 @@
 </script>
 
 <style scoped>
+.main-container{
+    /*background-color: #f7f7f7;*/
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
 
+}
 </style>

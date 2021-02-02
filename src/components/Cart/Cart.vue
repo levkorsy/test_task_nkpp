@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="main-catalog-wrapper">
     <table class="table table-bordered table-responsive">
       <thead>
       <tr>
@@ -67,6 +67,15 @@ export default {
 </script>
 
 <style scoped>
+  .main-catalog-wrapper{
+    border: 1px solid #dedddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+flex:1;
+    margin: 50px;
+    min-width: 500px;
+  }
   .price-up{
     color: red;
   }
