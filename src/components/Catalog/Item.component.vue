@@ -2,7 +2,7 @@
     <div class="item-wrapper">
         <div class="title">
             <p>
-                {{ itemGroupInfo.B[item.T].N }}
+                {{ item.title.N }}
                 <span>({{ item.P }})</span>
             </p>
         </div>
@@ -29,14 +29,11 @@
                 type:Object,
                 required: true
             },
-            itemGroupInfo:{
-                type: Object,
-                required: true
-            }
+
         },
         methods:{
 addToCart(){
-    EventBus.$emit('add_item', {id:this.item.T, group:this.item.G, title: this.itemGroupInfo.B[this.item.T].N, price: this.item.C})
+    EventBus.$emit('add_item', {id:this.item.T, group:this.item.G, title: this.item.title.N, price: this.item.C})
 }
         }
     }

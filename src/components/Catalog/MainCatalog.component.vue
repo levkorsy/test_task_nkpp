@@ -1,7 +1,7 @@
 <template>
    <div class="container">
       <ItemGroup v-for="(itemGroup, index) in itemStock" :key="index" class="group" :itemGroup="itemGroup"
-                 :item-group-info="itemTitles[index]" :dollar-rate="dollarRate"
+                 :dollar-rate="dollarRate"
 
       />
    </div>
@@ -18,13 +18,10 @@
               required: true
            },
           itemStock:{
-             type: Object,
+             type: Array,
              required: true
           },
-          itemTitles:{
-             type: Object,
-             required: true
-          }
+
        },
        methods:{
 

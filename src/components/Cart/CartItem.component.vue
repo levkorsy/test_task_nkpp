@@ -1,8 +1,9 @@
 <template>
     <tr>
         <td class="cart-item-title">{{cartItem.title}}</td>
-        <td class="cart-item-amount">Doe</td>
-        <td class="cart-item-price">john@example.com</td>
+        <td class="cart-item-amount">{{cartItem.amount}}</td>
+        <td class="cart-item-price">{{cartItem.price}}</td>
+        <td class="cart-item-price">{{(cartItem.price * cartItem.amount).toFixed(2)}}</td>
         <td class="cart-item-remove">
             <button class="btn btn-danger" @click="removeFromCart">X</button>
         </td>

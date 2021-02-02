@@ -1,7 +1,7 @@
 <template>
     <div class="item-group-wrapper">
-        <h5>{{ itemGroupInfo.G }}</h5>
-            <Item v-for="(item, index) in itemGroup" :key="index" :item="item" :item-group-info="itemGroupInfo" :dollar-rate="dollarRate"/>
+        <h5>{{ itemGroup.length > 0 ? itemGroup[0].groupTitle: 'Group' }}</h5>
+            <Item v-for="(item, index) in itemGroup" :key="index" :item="item" :dollar-rate="dollarRate"/>
     </div>
 </template>
 
@@ -21,10 +21,7 @@
                 type: Array,
                 required: true
             },
-            itemGroupInfo:{
-                type: Object,
-                required: true
-            }
+
         }
     }
 </script>
