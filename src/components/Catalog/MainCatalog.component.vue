@@ -37,7 +37,8 @@
    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
    flex: 2;
    margin: 50px;
-   min-width: 60%;
+   min-width: 820px;
+   max-width: 47%;
 
 }
 </style>

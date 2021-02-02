@@ -29,15 +29,17 @@
 </script>
 
 <style scoped lang="scss">
-    $titleColor = #05c2c9;
+    $titleColor:#76adaf;
 .item-group-wrapper{
     border: 2px solid #dedddd;
     margin: 10px 10px 40px;
     /*padding: 20px;*/
     border-radius: 10px;
+    color: #797575;;
+    background-color: #f8fcff;
 }
     .item-group-title{
-        font-size: 30px;
+        font-size: 25px;
         font-weight: 600;
         text-align: center;
         background-color: $titleColor;

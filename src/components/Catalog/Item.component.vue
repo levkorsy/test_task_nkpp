@@ -1,20 +1,30 @@
 <template>
     <div class="item-wrapper">
         <div class="title">
-            <p>
+            <p class="item-title">
                 {{ item.title.N }}
-                <span>({{ item.P }})</span>
-                <span v-if="item.P < 1">Товара нет в наличии</span>
+
             </p>
+        </div>
+        <div class="stock">
+            <span><span v-if="item.P > 0">({{ item.P }})</span> <span class="stock-comment">{{ getComment(item.P) }}</span></span>
+<!--            <span v-if="item.P < 1"><span class="stock-comment">Товара нет в наличии</span></span>-->
         </div>
         <div class="price"
              :class="setClassByDollarRate(dollarRate)"
         >
-            <span>{{ (item.C * dollarRate.current).toFixed(2) }} &#8381;</span>
+
+
+            <span><i class="fas fa-arrow-up"
+                     :class="setClassByDollarRate(dollarRate)"
+            ></i>{{ (item.C * dollarRate.current).toFixed(2) }} &#8381;</span>
         </div>
         <div class="add-item">
             <!--            <button class="btn btn-success" @click="$parent.$parent.$emit('addToCart', {id:item.T, group:item.G, title: itemGroupInfo.B[item.T].N, price: item.C})">+</button>-->
-            <button class="btn btn-success" @click="addToCart" :disabled="item.P < 1">+</button>
+            <button class="btn btn-add" @click="addToCart" :disabled="item.P < 1">
+<!--                🛒-->
+                <i class="fas fa-cart-plus"></i>
+            </button>
         </div>
     </div>
 </template>
@@ -47,6 +57,9 @@
                     quantity: this.item.P
                 })
             },
+            getComment(value){
+                return value < 1 ? 'Товара нет в наличии' : value < 10 ? 'товар заканчивается' : 'в наличии';
+            }
 
         }
     }
@@ -58,16 +71,63 @@
     }
 
     .title {
-        flex: 10;
+        flex: 7;
+        padding: 5px 10px;
+        background-color: white;
     }
 
     .price, .add-item {
         flex: 1;
+        text-align: center;align-self: baseline;
+    }
+    .price{
+        min-width: 100px;
     }
     .price-up{
         color: red;
     }
     .price-down{
         color: green;
+    }
+    .item-title{
+        width: 80%;
+    }
+    .stock{
+        flex: 2;
+        /*text-align: center;*/
+        align-self: baseline;
+        padding-left: 10px;
+    }
+    .stock-comment{
+        font-size: 11px;
+    }
+    .price span{
+        white-space: nowrap;
+    }
+    .btn-add{
+        background-color: #76adaf;
+        transition: all 0.3s ease-in-out;
+        color: white;
+    }
+    .btn-add:hover,
+    .btn-add:focus,
+    .btn-add:active{
+        /*outline: none;*/
+        background-color: #619092;
+        border-color: #76adaf;
+    }
+    .btn-add:focus{
+        transform: scale(1.1);
+    }
+    i.price-down{
+        transform: rotate(180deg);
+        transition: all 0.4s ease-in;
+    }
+    i.price-up{
+        transform: rotate(360deg);
+        transition: all 0.4s ease-in;
+    }
+    i.fa-arrow-up{
+        margin-right: 10px;
     }
 </style>
