@@ -1,21 +1,22 @@
 <template>
-    <div id="app">
-        <Main/>
-    </div>
+  <div id="app">
+    <Main/>
+  </div>
 </template>
 
 <script>
 
-    import Main from "./containers/Main.container";
+import Main from "./containers/Main.container";
 
-    export default {
-        name: 'App',
-        components: {
-            Main
-        }
-    }
+export default {
+  name: 'App',
+  components: {
+    Main
+  }
+}
 </script>
 
 <style>
-    #app {}
+#app {
+}
 </style>
