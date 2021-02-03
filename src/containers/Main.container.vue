@@ -4,7 +4,7 @@
                 :item-stock="itemStock"
                 :dollar-rate="dollarRate"
         />
-        <Cart :cart-items="cartItems" :key="key" :dollar-rate="dollarRate"/>
+        <Cart :cart-items="cartItems" :key="key" :dollar-rate="dollarRate" @resetCart="()=>{ cartItems ={} }"/>
     </div>
 
 </template>
