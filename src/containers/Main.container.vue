@@ -61,7 +61,7 @@
                 this.sortItemsByGroup(data.Value.Goods, names)
                 setInterval(()=>{
                     this.fetchData()
-                }, 5000)
+                }, 15000)
             },
             getDollarRate(min, max){
                 this.dollarRate.previous = this.dollarRate.current

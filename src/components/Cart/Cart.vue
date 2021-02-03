@@ -19,11 +19,7 @@
       <tfoot>
       <tr>
         <td colspan="3">Итого:</td>
-<!--        <td></td>-->
-<!--        <td>{{ getTotalAmount(cartItems)}}</td>-->
-<!--        <td>Sum</td>-->
         <td :class="getTotalPrice(cartItems) >0 ?setClassByDollarRate(dollarRate): ''" colspan="2">{{ getTotalPrice(cartItems) }} &#8381;</td>
-<!--        <td></td>-->
       </tr>
       </tfoot>
     </table>
@@ -50,7 +46,7 @@ export default {
   },
   data(){
     return{
-      totalAmount: 0
+      totalAmount:0
     }
   },
   methods: {
@@ -61,12 +57,9 @@ export default {
           sum += cartItems[item]['price']*cartItems[item]['amount']
         }
       }
-      // sum*=this.dollarRate.current
-      // console.log(sum, sum*this.dollarRate.current, (sum*this.dollarRate.current).toFixed(2))
       return (sum*this.dollarRate.current).toFixed(2)
     },
-
-  }
+    }
 }
 </script>
 

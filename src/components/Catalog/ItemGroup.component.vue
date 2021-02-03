@@ -1,6 +1,8 @@
 <template>
     <div class="item-group-wrapper">
-        <h5 class="item-group-title">{{ itemGroup.length > 0 ? itemGroup[0].groupTitle: 'Group' }}</h5>
+      <h5 class="item-group-title"><span class="chevron"><i class="fas fa-angle-double-down"></i>
+
+      </span>{{ itemGroup.length > 0 ? itemGroup[0].groupTitle: 'Group' }}<span class="chevron"><i class="fas fa-angle-double-down"></i></span></h5>
             <Item v-for="(item, index) in itemGroup" :key="index" :item="item" :dollar-rate="dollarRate"/>
     </div>
 </template>
@@ -50,5 +52,9 @@
         margin-right: -2px;
         padding: 15px 0px;
         color: white;
+    }
+    .chevron{
+      margin-right: 10px;
+      margin-left: 10px;
     }
 </style>
