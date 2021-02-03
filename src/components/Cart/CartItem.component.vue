@@ -1,7 +1,11 @@
 <template>
   <tr class="animate-tr">
-    <td class="cart-item-title">{{ cartItem.title }}</td>
-    <td class="cart-item-amount">{{ cartItem.amount }}</td>
+    <td class="cart-item-title">{{ cartItem.title }}
+      <div class="amount-msg" v-if="cartItem.quantity<10">Товар заканчивается</div>
+    </td>
+    <td class="cart-item-amount">{{ cartItem.amount }}
+
+    </td>
     <td class="cart-item-price" :class="setClassByDollarRate(dollarRate)">
       {{ (cartItem.price * dollarRate.current).toFixed(2) }} &#8381;
     </td>
@@ -9,7 +13,8 @@
       {{ (cartItem.price * cartItem.amount * dollarRate.current).toFixed(2) }} &#8381;
     </td>
     <td class="cart-item-remove">
-      <button class="btn btn-danger" @click="removeFromCart"><i class="far fa-trash-alt"></i></button>
+      <button class="btn btn-danger" @click="removeFromCart" title="Удалить товар"><i class="far fa-trash-alt"></i>
+      </button>
     </td>
   </tr>
 </template>
@@ -32,9 +37,10 @@ export default {
     },
   },
   methods: {
-    removeFromCart() {  // Triggers emit for removing items from cart
+    // Triggers emit for removing items from cart
+    removeFromCart() {
       EventBus.$emit('remove_item', {id: this.cartItem.id})
-    }
+    },
   },
 }
 </script>
@@ -75,5 +81,10 @@ td {
   100% {
     opacity: 1;
   }
+}
+
+.amount-msg {
+  opacity: 0.3;
+  font-size: 12px;
 }
 </style>

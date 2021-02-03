@@ -18,7 +18,7 @@
             ></i>{{ (item.C * dollarRate.current).toFixed(2) }} &#8381;</span>
     </div>
     <div class="add-item">
-      <button class="btn btn-add" @click="addToCart" :disabled="item.P < 1">
+      <button class="btn btn-add" @click="addToCart" :disabled="item.P < 1" title="Добавить в корзину">
         <i class="fas fa-cart-plus"></i>
       </button>
     </div>
@@ -44,7 +44,8 @@ export default {
 
   },
   methods: {
-    addToCart() {  // Triggers emit for adding items from cart || Object sent
+    // Triggers emit for adding items from cart || Object sent
+    addToCart() {
       this.item.P -= 1;
       EventBus.$emit('add_item', {
         id: this.item.T,
@@ -54,7 +55,8 @@ export default {
         quantity: this.item.P
       })
     },
-    getComment(value) { // Gets items amount(number) returns comment(string)
+    // Gets items amount(number) returns comment(string)
+    getComment(value) {
       return value < 1 ? 'Товара нет в наличии' : value < 10 ? 'товар заканчивается' : 'в наличии';
     }
   }

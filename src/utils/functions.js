@@ -1,6 +1,7 @@
 export default {
     methods: {
-        setClassByDollarRate(rate) {        // Returns css class due the price changes || Gets object, returns string
+        // Returns css class due the price changes || Gets object, returns string
+        setClassByDollarRate(rate) {
             if (rate.current > rate.previous) {
                 return 'price-up'
             } else if (rate.current < rate.previous) {

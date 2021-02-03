@@ -19,6 +19,17 @@ import EventBus from '../eventBus'
 export default {
   name: "Main",
   components: {Cart, MainCatalog},
+  created() {
+    this.fetchDataWithInterval()  // Simulates fetching data
+  },
+  mounted() {
+    EventBus.$on('add_item', (payload) => {
+      this.addToCart(payload)  // Emit listener for adding items to cart
+    })
+    EventBus.$on('remove_item', (payload) => {
+      this.removeFromCart(payload) // Emit listener for removing items to cart
+    })
+  },
   data() {
     return {
       itemTitles: {},
@@ -32,7 +43,8 @@ export default {
     }
   },
   methods: {
-    addToCart(item) {    //Function adds item to cart array. Gets object
+    //Function adds item to cart array. Gets object
+    addToCart(item) {
       // eslint-disable-next-line no-prototype-builtins
       if (this.cartItems.hasOwnProperty(item.id)) {   // Checks if item is already in the cart adn updates amount
         let amount = this.cartItems[item.id]['amount'];
@@ -46,7 +58,8 @@ export default {
         });
       }
     },
-    removeFromCart(item) {  //Function removes item to cart array. Gets object
+    //Function removes item to cart array. Gets object
+    removeFromCart(item) {
       // eslint-disable-next-line no-prototype-builtins
       if (this.cartItems.hasOwnProperty(item.id)) { // Checks if item is in the cart adn updates amount
         this.cartItems[item.id].amount -= 1 // If item amount bigger than 1 subtracts 1
@@ -56,23 +69,26 @@ export default {
       }
       this.updateStock(item.id)   // Updates stock of items after removing
     },
-    fetchDataWithInterval() { // Simulates fetching data request
+    // Simulates fetching data request
+    fetchDataWithInterval() {
       this.sortItemsByGroup(data.Value.Goods, names)  // Separates items due the categories
       setInterval(() => {
         this.fetchData()// Simulates API request
       }, 15000)
     },
-    getDollarRate(min, max) { // Simulates API request for dollar rate. Gets min and max numbers
+    // Simulates API request for dollar rate. Gets min and max numbers
+    getDollarRate(min, max) {
       this.dollarRate.previous = this.dollarRate.current
       this.dollarRate.current = Math.floor(Math.random() * (max - min + 1)) + min
     },
-
-    async fetchData() {  //Function simulates API request to server
+    //Function simulates API request to server
+    async fetchData() {
       await this.getDollarRate(20, 80)  // Simulates API request for dollar rate. Gets min and max numbers
       await this.sortItemsByGroup(data.Value.Goods, names) // Separates items due the categories
 
     },
-    updateStock(id) { // Updates stock of items. Gets number
+    // Updates stock of items. Gets number
+    updateStock(id) {
       this.itemStock.forEach(itemGroup => {
         itemGroup.forEach(item => {
           if (item.T === id) {
@@ -81,8 +97,8 @@ export default {
         })
       })
     },
-
-    sortItemsByGroup(items, names) { //Function sorts all items by group. Gets items(array of objects) and names(object)
+    //Function sorts all items by group. Gets items(array of objects) and names(object)
+    sortItemsByGroup(items, names) {
       this.itemStock = []
       let ids = [...new Set(items.map(id => id.G))]   // Creates array of group ids
       ids.forEach(id => {
@@ -98,17 +114,7 @@ export default {
       })
     }
   },
-  created() {
-    this.fetchDataWithInterval()  // Simulates fetching data
-  },
-  mounted() {
-    EventBus.$on('add_item', (payload) => {
-      this.addToCart(payload)  // Emit listener for adding items to cart
-    })
-    EventBus.$on('remove_item', (payload) => {
-      this.removeFromCart(payload) // Emit listener for removing items to cart
-    })
-  }
+
 }
 </script>
 

@@ -2,7 +2,7 @@
   <div class="main-catalog-wrapper" style="box-shadow:rgb(0 0 0 / 24%) 0px 3px 8px;
 ">
     <h5 class="item-group-title">Корзина</h5>
-    <button class="btn reset-btn" @click="$emit('resetCart')"><i class="far fa-times-circle"></i></button>
+    <button class="btn reset-btn" @click="$emit('resetCart')" title="Очистить корзину"><i class="far fa-times-circle"></i></button>
     <table class="table table-bordered table-responsive">
       <thead>
       <tr class="text-center">
@@ -46,7 +46,8 @@ export default {
     },
   },
   methods: {
-    getTotalPrice(cartItems) {   //Calculates total price of all items object || Gets object || Returns number
+    //Calculates total price of all items object || Gets object || Returns number
+    getTotalPrice(cartItems) {
       let sum = 0;
       if (cartItems) {
         for (const item in cartItems) {  // Iterate through items
